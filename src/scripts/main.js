@@ -2,24 +2,22 @@ function main() {
 
     // membuat instance dari XMLHttpRequest
     const xhr = new XMLHttpRequest();
+	
 	const baseUrl = "https://web-server-book-dicoding.appspot.com";
 
-    const getBook = () => {
-		fetch(`${baseUrl}/list`) 
-			.then(response => {
-				return response.json();
-			})
-			.then(responseJson => {
-				if (responseJson.error) {
-					showResponseMessage(responseJson.message);
-				} else {
-					renderAllBooks(responseJson.books);
-				}
-			})
-			.catch(error => {
-				showResponseMessage(error);
-			})	
-		};
+    const getBook = async () => {
+		try {
+			const response = await fetch(`${baseUrl}/list`);
+			const responseJson = await response.json();
+			if(responseJson.error) {
+				showResponseMessage(responseJson.message);
+			} else {
+				renderAllBooks(responseJson.books);
+			}
+		} catch(error) {
+			showResponseMessage(error);
+		}
+	}
 		
 
     const insertBook = (book) => {
