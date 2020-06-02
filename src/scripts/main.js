@@ -32,7 +32,7 @@ function main() {
 				body: JSON.stringify(book)
 			}
 			
-			const response = await fetch(`${baseUrl}/add`, options)
+			const response = await fetch(`${baseUrl}/add`, options);
 			const responseJson = await response.json();
 			showResponseMessage(responseJson.message);
 			getBook();
@@ -61,33 +61,25 @@ function main() {
 	   }
     };
 
-    const removeBook = (bookId) => {
-        // tuliskan kode di sini!
+    const removeBook = async (bookId) => {
 		
-		//menetapkan callback jika response sukses dan error
-		xhr.onload = function() {
-			const responseJson = JSON.parse(this.responseText);
+		try {
+			const options = {
+				method: "DELETE",
+				headers: {
+					"X-Auth-Token": "12345"
+				}
+			}
+			
+			const response = await fetch(`${baseUrl}/delete/${bookId}`, options);
+			const responseJson = await response.json();	
+
 			showResponseMessage(responseJson.message);
-			getBook();
-		};
-		
-		xhr.onerror = function() {
-			showResponseMessage();
+			getBook();		
+		} catch(error) {
+			showResponseMessage(error);
 		}
-		
-		// Membuat DELETE request dan menetapkan target URL
-		xhr.open("DELETE", `${baseUrl}/delete/${bookId}`);
-		
-		// Mementapkan properti Content-Type dan X-Auth-Token pada Header request
-		xhr.setRequestHeader("X-Auth-Token", "12345");
-		
-		// Mengirimkan request
-		xhr.send();
-		
 	};
-
-
-
 
 
     /*
