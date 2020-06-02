@@ -1,8 +1,4 @@
 function main() {
-
-    // membuat instance dari XMLHttpRequest
-    const xhr = new XMLHttpRequest();
-	
 	const baseUrl = "https://web-server-book-dicoding.appspot.com";
 
     const getBook = async () => {
