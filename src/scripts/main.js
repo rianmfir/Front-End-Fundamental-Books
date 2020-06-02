@@ -23,28 +23,25 @@ function main() {
 		
 
     const insertBook = (book) => {
-        // tuliskan kode di sini!
-
-        //menetapkan callback jika response sukses dan error
-        xhr.onload = function() {
-            const responseJson = JSON.parse(this.responseText);
-            showResponseMessage(responseJson.message);
-            getBook();
-        }
-
-        xhr.onerror = function() {
-            showResponseMessage();
-        }
-
-        // Membuat POST request dan menetapkan target URL
-        xhr.open("POST", `${baseUrl}/add`);
-
-        // menambahkan properti pada header request
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("X-Auth-Token", "12345");
-
-        // Mengirimkan request dan menyisipkan JSON.stringify(book) pada body
-        xhr.send(JSON.stringify(book));
+        
+		fetch(`${baseUrl}/add`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-Auth-Token": "12345"
+			},
+			body: JSON.stringify(book)
+		})
+		.then(response => {
+			return response.json();
+		})
+		.then(responseJson => {
+			showResponseMessage(responseJson.message);
+			getBook();
+		})
+		.catch(error => {
+			showResponseMessage(error);
+		})
     };
 
     const updateBook = (book) => {
